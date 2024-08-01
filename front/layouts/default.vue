@@ -4,8 +4,12 @@
         <h1>My Nuxt Application</h1>
         <nav>
             <NuxtLink to="/">topへ</NuxtLink>
+            <NuxtLink to="/menu">menuへ</NuxtLink>
+            <NuxtLink to="/thanks">thanksへ</NuxtLink>
+            <NuxtLink to="/done">doneへ</NuxtLink>
             <button v-if="loggedIn" @click="logout">Logout</button>
             <NuxtLink v-else to="/login">Login</NuxtLink>
+            <NuxtLink to="/register">Register</NuxtLink>
         </nav>
         </header>
         <main>
@@ -33,29 +37,37 @@
     };
 </script>
 
+<style>
+body {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    background-color: #ededed;
+}
+</style>
+
 <style scoped>
-    header {
-    background-color: #f5f5f5;
-    padding: 1rem;
+header {
     text-align: center;
-    }
+}
 
-    nav a {
+nav a {
+    margin-right: 10px;
     color: #333;
-    margin-right: 1em;
     text-decoration: none;
-    }
+}
 
-    main {
-    padding: 2rem;
-    }
+main {
+    padding: 0 20px;
+    max-width: 1350px;
+    width: 100%;
+    box-sizing: border-box;
+}
 
-    footer {
-    background-color: #f5f5f5;
-    padding: 1rem;
+footer {
     text-align: center;
     position: fixed;
     bottom: 0;
     width: 100%;
-    }
+}
 </style>

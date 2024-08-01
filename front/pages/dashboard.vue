@@ -13,7 +13,7 @@
     // ユーザーリストの状態を定義
     const users = ref()
 
-// ユーザーを取得する関数
+    // ユーザーを取得する関数
     const { $apiFetch } = useNuxtApp()
     const getUsers = async () => {
         const response = await $apiFetch(`api/users`, { method: "GET" })

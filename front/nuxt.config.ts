@@ -13,6 +13,7 @@ export default defineNuxtConfig({
       logout: "/api/logout", // ログアウト用、サーバーにPOSTするURL。今回は使わない
       user: "/api/user", // ユーザー情報をサーバーからGETするURL
       users: "/api/users",
+      shops: "/api/shops",// 店舗一覧取得
     },
     csrf: {
       headerKey: "X-XSRF-TOKEN",
