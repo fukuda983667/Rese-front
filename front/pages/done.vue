@@ -5,6 +5,12 @@
     </div>
 </template>
 
+<script setup>
+definePageMeta({
+    middleware: ['sanctum:auth'],
+});
+</script>
+
 <style scoped>
 .card {
     background-color: #fff; /* 背景色を白に設定 */
@@ -33,6 +39,6 @@
 }
 
 .link:hover {
-    background-color: #0056b3; /* ホバー時の背景色を設定 */
+    background-color: #2e51d0; /* ホバー時の背景色を設定 */
 }
 </style>

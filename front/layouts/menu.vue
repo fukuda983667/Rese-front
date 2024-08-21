@@ -1,8 +1,7 @@
 <template>
         <header class="header">
             <div class="header__container">
-                <HamburgerMenu />
-                <ShopSearch v-if="isIndexPage" />
+                <BackButtonMenu />
             </div>
         </header>
         <main class="main">
@@ -12,8 +11,7 @@
 </template>
 
 <script setup>
-const route = useRoute()
-const isIndexPage = computed(() => route.path === '/')
+
 </script>
 
 <style>
