@@ -6,9 +6,9 @@
 </template>
 
 <script setup>
-    definePageMeta({
-        middleware: "auth",
-    })
+definePageMeta({
+    middleware: ['sanctum:guest'],
+});
 </script>
 
 <style scoped>
@@ -39,6 +39,6 @@
 }
 
 .link:hover {
-    background-color: #0056b3; /* ホバー時の背景色を設定 */
+    background-color: #2e51d0; /* ホバー時の背景色を設定 */
 }
 </style>

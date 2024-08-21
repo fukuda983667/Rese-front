@@ -3,32 +3,47 @@
         <p class="form__title">Login</p>
         <form class="form">
             <div class="input__container">
-            <label for="email" class="icon email__icon"></label>
-            <input id="email" type="text" v-model="email" placeholder="Email" />
+                <label for="email" class="icon email__icon"></label>
+                <input id="email" type="text" v-model="email" placeholder="Email" />
             </div>
             <div class="input__container">
-            <label for="password" class="icon password__icon"></label>
-            <input id="password" type="password" v-model="password" placeholder="Password" />
+                <label for="password" class="icon password__icon"></label>
+                <input id="password" type="password" v-model="password" placeholder="Password" />
             </div>
-            <button type="button" @click="login">ログイン</button>
+            <button type="button" @click="performLogin">ログイン</button>
         </form>
     </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
 definePageMeta({
-    middleware: "guest",
-})
+    middleware: ['sanctum:guest'],
+});
 
 const email = ref('')
 const password = ref('')
-const { $sanctumAuth } = useNuxtApp()
 const router = useRouter()
-const login = async () => {
-    await $sanctumAuth.login({
-        email: email.value, // テストユーザーのメールアドレス
-        password: password.value, // テストユーザーのパスワード
-    })
+const { login } = useSanctumAuth()
+
+const performLogin = async () => {
+    try {
+        // 資格情報のペイロードを作成
+        const userCredentials = {
+            email: email.value,
+            password: password.value,
+        }
+
+        // ユーザーをログインさせる
+        await login(userCredentials)
+
+        // ログイン成功後にリダイレクト
+        router.push('/') // リダイレクト先を必要に応じて変更してください
+    } catch (error) {
+        console.error('ログインに失敗しました:', error)
+    }
 }
 </script>
 
@@ -111,6 +126,6 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3; /* ホバー時の背景色を設定 */
+    background-color: #2e51d0; /* ホバー時の背景色を設定 */
 }
 </style>

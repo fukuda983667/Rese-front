@@ -10,8 +10,18 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.5.3",
+    "dayjs": "^1.11.12",
     "nuxt": "^3.12.4",
-    "nuxt-sanctum-auth": "^0.4.7",
+    "vee-validate": "^4.13.2",
+    "vue": "latest",
+    "yup": "^1.4.0",
+    "yup-locale-ja": "^1.0.0"
+  },
+  "devDependencies": {
+    "nuxt-auth-sanctum": "^0.4.4"
+  },
+  "overrides": {
     "vue": "latest"
   }
 }

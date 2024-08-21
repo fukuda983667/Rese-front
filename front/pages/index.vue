@@ -1,46 +1,49 @@
 <template>
-    <div class="hamburger__menu">
-        <HamburgerMenu />
-    </div>
-    <div class="message">
-        <p v-if="loggedIn">{{ user.name }}さんがログイン中</p>
-        <p v-if="loggedIn">メールアドレス: {{ user.email }}</p>
-        <p v-else>ログアウト中</p>
-    </div>
-
     <div class="shop__card__wrapper">
         <ul class="shop__card__list">
-            <li v-for="shop in shops" :key="shop.id" class="shop__card__item">
-                <ShopCard :shop="shop" />
+            <li v-for="shop in filteredShops" :key="shop.id" class="shop__card__item">
+                <ShopCard :shop="shop"/>
             </li>
         </ul>
     </div>
 </template>
 
 <script setup>
-    const { user, loggedIn } = useAuth()
+definePageMeta({
+    middleware: ['sanctum:auth'],
+});
 
-    import { ref, onMounted } from 'vue'
-    // 店舗リストの状態を定義
-    const shops = ref()
-    // 店舗一覧を取得する関数
-    const { $apiFetch } = useNuxtApp()
-    const getShops = async () => {
-        const response = await $apiFetch(`api/shops`, { method: "GET" })
-        shops.value = response.shops
-    }
+import { ref, onMounted } from 'vue'
+import { useShopStore } from '~/stores/shopStore' // Piniaのストアをインポート
+import { useRoute } from 'vue-router'
 
-    // コンポーネントがマウントされたときにユーザーを取得
-    onMounted(() => {
-        getShops()
+const shopStore = useShopStore()
+const shops = computed(() => shopStore.shops)
+const { user, isAuthenticated, refreshIdentity } = useSanctumAuth()
+const route = useRoute()
+
+// クエリパラメータに基づいて店舗をフィルタリング
+const filteredShops = computed(() => {
+    const region = route.query.region || ''
+    const genre = route.query.genre || ''
+    const name = route.query.name || ''
+
+    return shops.value.filter(shop => {
+        const matchRegion = region ? shop.region.includes(region) : true
+        const matchGenre = genre ? shop.genre.includes(genre) : true
+        const matchName = name ? shop.name.includes(name) : true
+        return matchRegion && matchGenre && matchName
     })
+})
+
+// コンポーネントがマウントされたときに店舗一覧を取得
+onMounted(async () => {
+    await refreshIdentity()
+    await shopStore.fetchShops()
+})
 </script>
 
 <style scoped>
-.message {
-    padding: 30px;
-}
-
 .shop__card__wrapper {
     margin: -15px -10px;
 }

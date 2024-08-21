@@ -2,28 +2,42 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
-  modules: ["nuxt-sanctum-auth"],
-  ssr: false, // このパッケージは、SSR対応していないので追加
-  nuxtSanctumAuth: {
-    token: false, // token認証ならここをTrueにするが、今回はクッキー認証なのでfalse
-    baseUrl: "http://localhost:8080", // Laravel側のローカルサーバーに合わせて設定
+  modules: ["nuxt-auth-sanctum", "@pinia/nuxt"],
+  ssr: false,
+  // nuxt-auth-sanctum options
+  sanctum: {
+    baseUrl: "http://localhost:8080", // Laravel API
+    mode: "cookie",
+    userStateKey: "sanctum.user.identity",
+    redirectIfAuthenticated: false,
+    redirectIfUnauthenticated: false,
     endpoints: {
-      csrf: "/sanctum/csrf-cookie", // csrf-tokenをサーバーからGETするURL。Laravelの設定がデフォルトならこれ
-      login: "/api/login", // ログイン用、サーバーにPOSTするURL。
-      logout: "/api/logout", // ログアウト用、サーバーにPOSTするURL。今回は使わない
-      user: "/api/user", // ユーザー情報をサーバーからGETするURL
-      users: "/api/users",
-      shops: "/api/shops",// 店舗一覧取得
+      csrf: "/sanctum/csrf-cookie",
+      login: "/api/login",
+      logout: "/api/logout",
+      user: "/api/user",
+      shops: "/api/shops", // 店舗一覧取得
+      likes: "/api/likes",
+      reservations: "/api/reservations",
     },
     csrf: {
-      headerKey: "X-XSRF-TOKEN",
-      cookieKey: "XSRF-TOKEN",
-      tokenCookieKey: "nuxt-sanctum-auth-token", // デフォルトならこのままでOK
+      cookie: "XSRF-TOKEN",
+      header: "X-XSRF-TOKEN",
     },
-    redirects: {
-      home: "/show", // ログイン後などでリダイレクト
-      login: "/login", // ログインページ
-      logout: "/", // ログアウト後
+    client: {
+      retry: false,
     },
+    redirect: {
+      keepRequestedRoute: false,
+      onLogin: "/",
+      onLogout: "/login",
+      onAuthOnly: "/login",
+      onGuestOnly: "/",
+    },
+    globalMiddleware: {
+      enabled: false,
+      allow404WithoutAuth: true,
+    },
+    logLevel: 3,
   },
 });

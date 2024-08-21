@@ -3,16 +3,16 @@
         <p class="form__title">Registration</p>
         <form class="form">
             <div class="input__container">
-            <label for="name" class="icon user__icon"></label>
-            <input id="name" type="text" v-model="name" placeholder="Username" />
+                <label for="name" class="icon user__icon"></label>
+                <input id="name" type="text" v-model="name" placeholder="Username" />
             </div>
             <div class="input__container">
-            <label for="email" class="icon email__icon"></label>
-            <input id="email" type="text" v-model="email" placeholder="Email" />
+                <label for="email" class="icon email__icon"></label>
+                <input id="email" type="text" v-model="email" placeholder="Email" />
             </div>
             <div class="input__container">
-            <label for="password" class="icon password__icon"></label>
-            <input id="password" type="password" v-model="password" placeholder="Password" />
+                <label for="password" class="icon password__icon"></label>
+                <input id="password" type="password" v-model="password" placeholder="Password" />
             </div>
             <button type="button" @click="register">登録</button>
         </form>
@@ -20,11 +20,14 @@
 </template>
 
 <script setup>
+    definePageMeta({
+        middleware: ['sanctum:guest'],
+    });
+
     import { ref } from 'vue'
     import { useRouter } from 'vue-router'
 
     const router = useRouter()
-
     const name = ref('')
     const email = ref('')
     const password = ref('')
@@ -44,7 +47,7 @@
             })
             if (response.ok) {
                 console.log('登録成功')
-                router.push('/login') // 登録後、ログインページにリダイレクト
+                router.push('/thanks') // // 登録成功後、thanks.vueへ遷移
             } else {
                 const data = await response.json()
                 console.error('登録失敗:', data.message)
@@ -138,6 +141,6 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3; /* ホバー時の背景色を設定 */
+    background-color: #2e51d0; /* ホバー時の背景色を設定 */
 }
 </style>
