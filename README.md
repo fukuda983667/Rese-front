@@ -17,9 +17,25 @@
     git clone https://github.com/fukuda983667/Rese-front
     ```
 
-2. Docker Composeを使用してコンテナを作成・起動します。※Docker Descktop起動時に実行してください。
+2. クローンしたRese-frontディレクトリに移動
+
+    ```bash
+    cd Rese-front
+    ```
+
+3. Docker Composeを使用してコンテナを作成・起動します。※Docker Descktop起動時に実行してください。
 
     ```bash
     docker-compose up -d --build
     ```
 
+4. Rese-backの環境構築に移ってください。https://github.com/fukuda983667/Rese-back
+
+5. アプリケーションがhttp://localhost:3000 で利用可能になります。
+   ※Rese-backの環境構築が必要です。
+
+## ローカルリポジトリの削除  
+`git clone`したローカルリポジトリを完全に削除します。  
+```
+sudo rm -rf Rese-front
+```
