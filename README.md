@@ -39,6 +39,15 @@
 - Nuxt3 : 3.12.4
 - docker-compose.yml : 3.9
 
+## URL
+
+- 開発環境(ホームページ) : http://localhost:3000
+- マイページ : http://localhost:3000/mypage
+- メニュー : http://localhost:3000/menu
+- 店舗詳細 : http://localhost:3000/detail/id
+- ユーザ登録ページ : http://localhost:3000/register
+- ログインページ : http://localhost:3000/login
+
 ## ローカルリポジトリの削除  
 `git clone`したローカルリポジトリを完全に削除します。  
 ```
