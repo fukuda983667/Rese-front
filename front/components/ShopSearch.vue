@@ -61,7 +61,7 @@ const filterShops = () => {
 .search__container {
     display: flex;
     width: 48%;
-    padding: 10px;
+    padding: 8px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
