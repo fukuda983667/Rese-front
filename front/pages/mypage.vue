@@ -1,18 +1,30 @@
 <template>
     <h2 class="mypage__title--main">{{ user.name }}さん</h2>
     <div class="mypage__content">
-        <div class="reservation__shop__content">
-            <h3 class="mypage__title--sub">予約状況</h3>
+        <div class="reservation__shop__content" v-if="isShowingReservations">
+            <h3 class="mypage__title--sub reservation">予約状況</h3>
+            <a href="" @click.prevent="toggleContent">来店履歴に切り替える</a>
             <div class="reservation__card__wrapper">
                 <ul class="reservation__card__list">
-                    <li v-for="reservation in reservations" :key="reservation.id" class="reservation__card__item">
+                    <li v-for="reservation in reservations" class="reservation__card__item">
                         <ReservationCard :reservation="reservation"/>
                     </li>
                 </ul>
             </div>
         </div>
+        <div class="visit-history__shop__content" v-else>
+            <h3 class="mypage__title--sub visit-history">来店履歴</h3>
+            <a href="" @click.prevent="toggleContent">予約状況に切り替える</a>
+            <div class="reservation__card__wrapper">
+                <ul class="reservation__card__list">
+                    <li v-for="visitHistory in visitHistory" class="reservation__card__item">
+                        <VisitHistoryCard :visitHistory="visitHistory"/>
+                    </li>
+                </ul>
+            </div>
+        </div>
         <div class="like__shop__content">
-            <h3 class="mypage__title--sub">お気に入り店舗</h3>
+            <h3 class="mypage__title--sub shop">お気に入り店舗</h3>
             <div class="shop__card__wrapper">
                 <ul class="shop__card__list">
                     <li v-for="shop in shops" :key="shop.id" class="shop__card__item">
@@ -33,6 +45,13 @@ const { user, refreshIdentity } = useSanctumAuth()
 const client = useSanctumClient()
 const shops = ref()
 const reservations = ref()
+const visitHistory = ref()
+const isShowingReservations = ref(true) // 初期表示は予約情報
+
+// コンテンツを切り替える関数
+const toggleContent = () => {
+    isShowingReservations.value = !isShowingReservations.value
+}
 
 // 店舗一覧を取得する関数
 const getMyPage = async () => {
@@ -41,6 +60,7 @@ const getMyPage = async () => {
         // レスポンスを直接確認する
         shops.value = response.likes
         reservations.value = response.reservations
+        visitHistory.value = response.visitHistory
         console.log(response.likes)
     } catch (error) {
         console.error('店舗一覧の取得エラー:', error)
@@ -69,25 +89,29 @@ onMounted(() => {
     font-size: 24px;
 }
 
-/* reservation__card__list▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
-.reservation__shop__content {
+/* reservation__card__list visit-history__card__list▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
+.reservation__shop__content,
+.visit-history__shop__content {
     width: 35%;
 }
 
-.reservation__card__wrapper {
+.reservation__card__wrapper,
+.visit-history__card__wrapper {
     width: 100%;
 }
 
-.reservation__card__list {
+.reservation__card__list,
+.visit-history__card__list {
     margin: 0;
     padding: 0;
     list-style-type: none; /* デフォルトのリストスタイルを削除 */
 }
 
-.reservation__card__item {
+.reservation__card__item,
+.visit-history__card__item {
     margin-bottom: 30px;
 }
-/* reservation__card__list▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+/* reservation__card__list visit-history__card__list▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
 
 
 /* shop__card__list▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
