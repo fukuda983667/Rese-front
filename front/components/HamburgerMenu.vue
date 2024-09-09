@@ -19,9 +19,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    width: 40px;
-    height: 40px;
-    padding: 10px;
+    width: 36px;
+    height: 36px;
+    padding: 8px;
     background-color: #365ff5; /* 背景色を青色に設定 */
     border: none;
     border-radius: 4px;
