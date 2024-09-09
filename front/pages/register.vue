@@ -1,61 +1,92 @@
 <template>
     <div class="form__container">
         <p class="form__title">Registration</p>
-        <form class="form">
+        <form class="form" @submit.prevent>
             <div class="input__container">
                 <label for="name" class="icon user__icon"></label>
                 <input id="name" type="text" v-model="name" placeholder="Username" />
             </div>
+            <p class="error__message" v-if="nameError">{{ nameError }}</p>
             <div class="input__container">
                 <label for="email" class="icon email__icon"></label>
                 <input id="email" type="text" v-model="email" placeholder="Email" />
             </div>
+            <p class="error__message" v-if="emailError">{{ emailError }}</p>
             <div class="input__container">
                 <label for="password" class="icon password__icon"></label>
                 <input id="password" type="password" v-model="password" placeholder="Password" />
             </div>
-            <button type="button" @click="register">登録</button>
+            <p class="error__message" v-if="passwordError">{{ passwordError }}</p>
+            <button type="button" @click="register" :disabled="!isValid">登録</button>
         </form>
     </div>
 </template>
 
 <script setup>
-    definePageMeta({
-        middleware: ['sanctum:guest'],
-    });
+definePageMeta({
+    middleware: ['sanctum:guest'],
+});
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useForm, useField } from 'vee-validate';
+import * as yup from 'yup';
+const router = useRouter()
 
-    import { ref } from 'vue'
-    import { useRouter } from 'vue-router'
 
-    const router = useRouter()
-    const name = ref('')
-    const email = ref('')
-    const password = ref('')
+// バリデーションスキーマの設定
+const validationSchema = yup.object({
+    name: yup
+        .string()
+        .required('ユーザー名を入力してください')
+        .max(30, 'ユーザー名は30文字以内で入力してください'),
+    email: yup
+        .string()
+        .required('Emailを入力してください')
+        .email('有効なEmailを入力してください'),
+    password: yup
+        .string()
+        .required('パスワードを入力してください')
+        .min(8, 'パスワードは8文字以上で入力してください')
+        .max(20, 'パスワードは20文字以下で入力してください'),
+});
 
-    const register = async () => {
-        try {
-            const response = await fetch('http://localhost:8080/api/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: name.value,
-                    email: email.value,
-                    password: password.value,
-                }),
-            })
-            if (response.ok) {
-                console.log('登録成功')
-                router.push('/thanks') // // 登録成功後、thanks.vueへ遷移
-            } else {
-                const data = await response.json()
-                console.error('登録失敗:', data.message)
-            }
-        } catch (error) {
-            console.error('登録エラー:', error)
+// useFormを使ってバリデーションスキーマを設定
+const { meta } = useForm({
+    validationSchema,
+});
+
+// 各フィールドの定義
+const { value: name, errorMessage: nameError } = useField('name');
+const { value: email, errorMessage: emailError } = useField('email');
+const { value: password, errorMessage: passwordError } = useField('password');
+
+// フォーム全体のバリデーション状態を監視
+const isValid = computed(() => meta.value.valid);
+
+const register = async () => {
+    try {
+        const response = await fetch('http://localhost:8080/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: name.value,
+                email: email.value,
+                password: password.value,
+            }),
+        })
+        if (response.ok) {
+            console.log('登録成功')
+            router.push('/thanks') // // 登録成功後、thanks.vueへ遷移
+        } else {
+            const data = await response.json()
+            console.error('登録失敗:', data.message)
         }
+    } catch (error) {
+        console.error('登録エラー:', error)
     }
+}
 </script>
 
 <style scoped>
@@ -125,6 +156,12 @@ input {
 
 input:focus {
     border-bottom-color: #365ff5; /* フォーカス時のアンダーラインの色を設定 */
+}
+
+.error__message {
+    margin: 0 0 20px 0;
+    color: #ff0000;
+    font-weight: bold;
 }
 
 button {
