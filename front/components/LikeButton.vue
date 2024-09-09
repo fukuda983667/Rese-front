@@ -76,8 +76,8 @@ onMounted(() => {
 }
 
 .heart__icon {
-    width: 40px; /* 必要に応じてサイズを調整 */
-    height: 40px; /* 必要に応じてサイズを調整 */
+    width: 30px; /* 必要に応じてサイズを調整 */
+    height: 30px; /* 必要に応じてサイズを調整 */
     color: #ededed; /* デフォルトの色 */
 }
 
