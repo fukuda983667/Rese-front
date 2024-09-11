@@ -15,8 +15,8 @@ const goBack = () => {
 
 <style scoped>
 .back__button {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     background-color: #365ff5; /* 背景色を青色に設定 */
     border: none;
     border-radius: 4px;

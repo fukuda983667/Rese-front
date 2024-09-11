@@ -1,6 +1,6 @@
 <template>
     <div class="card">
-        <p class="message">ご予約ありがとうございます</p>
+        <p class="message">{{ message }}</p>
         <NuxtLink class="link" to="/">戻る</NuxtLink>
     </div>
 </template>
@@ -9,6 +9,9 @@
 definePageMeta({
     middleware: ['sanctum:auth'],
 });
+
+const route = useRoute()
+const message = route.query.message
 </script>
 
 <style scoped>

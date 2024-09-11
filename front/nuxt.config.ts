@@ -4,6 +4,12 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["nuxt-auth-sanctum", "@pinia/nuxt"],
   ssr: false,
+
+  nitro: {
+    preset: "aws-lambda",
+    serveStatic: false,
+  },
+
   // nuxt-auth-sanctum options
   sanctum: {
     baseUrl: "http://localhost:8080", // Laravel API
@@ -19,6 +25,7 @@ export default defineNuxtConfig({
       shops: "/api/shops", // 店舗一覧取得
       likes: "/api/likes",
       reservations: "/api/reservations",
+      reviews: "/api/reviews",
     },
     csrf: {
       cookie: "XSRF-TOKEN",

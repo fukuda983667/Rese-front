@@ -30,7 +30,7 @@ body {
     display: flex;
     margin: 40px auto;
     padding: 0 20px;
-    max-width: 1350px;
+    max-width: 1130px;
     width: 100%;
     justify-content: space-between;
     text-align: center;
@@ -40,7 +40,7 @@ body {
 .main {
     margin: 0 auto;
     padding: 0 20px;
-    max-width: 1350px;
+    max-width: 1130px;
     width: 100%;
     box-sizing: border-box;
 }
@@ -48,7 +48,7 @@ body {
 .footer {
     margin: 0 auto;
     padding: 0 20px;
-    max-width: 1350px;
+    max-width: 1130px;
     width: 100%;
     box-sizing: border-box;
 }

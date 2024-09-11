@@ -1,16 +1,18 @@
 <template>
     <div class="form__container">
         <p class="form__title">Login</p>
-        <form class="form">
+        <form class="form" @submit.prevent>
             <div class="input__container">
                 <label for="email" class="icon email__icon"></label>
                 <input id="email" type="text" v-model="email" placeholder="Email" />
             </div>
+            <p class="error__message" v-if="emailError">{{ emailError }}</p>
             <div class="input__container">
                 <label for="password" class="icon password__icon"></label>
                 <input id="password" type="password" v-model="password" placeholder="Password" />
             </div>
-            <button type="button" @click="performLogin">ログイン</button>
+            <p class="error__message" v-if="passwordError">{{ passwordError }}</p>
+            <button type="button" @click="performLogin" :disabled="!isValid">ログイン</button>
         </form>
     </div>
 </template>
@@ -18,15 +20,42 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useForm, useField } from 'vee-validate';
+import * as yup from 'yup';
 
 definePageMeta({
     middleware: ['sanctum:guest'],
 });
 
-const email = ref('')
-const password = ref('')
 const router = useRouter()
 const { login } = useSanctumAuth()
+
+
+// バリデーションスキーマの設定
+const validationSchema = yup.object({
+    email: yup
+        .string()
+        .required('Emailを入力してください')
+        .email('有効なEmailを入力してください'),
+    password: yup
+        .string()
+        .required('パスワードを入力してください')
+        .min(8, 'パスワードは8文字以上で入力してください')
+        .max(30, 'パスワードは30文字以下で入力してください'),
+});
+
+// useFormを使ってバリデーションスキーマを設定
+const { meta } = useForm({
+    validationSchema,
+});
+
+// 各フィールドの定義
+const { value: email, errorMessage: emailError } = useField('email');
+const { value: password, errorMessage: passwordError } = useField('password');
+
+// フォーム全体のバリデーション状態を監視
+const isValid = computed(() => meta.value.valid);
+
 
 const performLogin = async () => {
     try {
@@ -110,6 +139,12 @@ input {
 
 input:focus {
     border-bottom-color: #365ff5; /* フォーカス時のアンダーラインの色を設定 */
+}
+
+.error__message {
+    margin: 0 0 20px 0;
+    color: #ff0000;
+    font-weight: bold;
 }
 
 button {

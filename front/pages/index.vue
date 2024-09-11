@@ -57,7 +57,7 @@ onMounted(async () => {
 }
 
 .shop__card__item {
-    margin: 15px 10px; /* Space between items */
+    margin: 10px 7px; /* Space between items */
     width: calc(25% - 20px); /* 水平マージンを考慮して幅を調整 */
     box-sizing: border-box; /* パディングやボーダーを幅に含める */
 }

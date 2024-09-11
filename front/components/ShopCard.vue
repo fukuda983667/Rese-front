@@ -4,7 +4,14 @@
             <img :src="`/images/shop/${shop.image_url}`" alt="">
         </div>
         <div class="card__content">
-            <h2 class="shop__name">{{ shop.name }}</h2>
+            <div class="card__header">
+                <h2 class="shop__name">{{ shop.name }}</h2>
+                <div class="shop__review-summary" v-if="shop.rating">
+                    <span>{{ shop.rating }}</span>
+                    <span class="star__icon"></span>
+                    <ReviewList :shopId="shop.id"/>
+                </div>
+            </div>
             <div class="shop__details">
                 <p class="shop__region">#{{ shop.region }}</p>
                 <p class="shop__genre">#{{ shop.genre }}</p>
@@ -33,7 +40,7 @@ const props = defineProps({
 
 <style scoped>
 .shop__card {
-    width: 300px;
+    width: 180px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
@@ -41,7 +48,7 @@ const props = defineProps({
 
 .card__img {
     width: 100%;
-    height: 150px; /* 必要に応じて高さを調整 */
+    height: 120px; /* 必要に応じて高さを調整 */
     overflow: hidden; /* 余分な部分を隠す */
     border-top-left-radius: 5px; /* 左上の角を丸くする */
     border-top-right-radius: 5px; /* 右上の角を丸くする */
@@ -54,10 +61,28 @@ const props = defineProps({
 }
 
 .card__content {
-    padding: 18px;
+    padding: 12px;
 }
 
-.shop__name,
+.card__header {
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.shop__review-summary {
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.shop__name {
+    margin: 0;
+    font-size: 18px;
+}
+
 .shop__region,
 .shop__genre {
     margin: 0;
@@ -65,7 +90,22 @@ const props = defineProps({
 
 .shop__details {
     display: flex; /* 横並びにする */
+    margin: 0;
     gap: 5px; /* 要素間のスペースを追加 */
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.star__icon {
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    width: 15px; /* アイコンの幅を設定 */
+    height: 15px; /* アイコンの高さを設定 */
+    background-size: 100%; /* アイコンのサイズを親要素の100%に設定 */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('../public/images/icon/star.svg');
 }
 
 .button__wrapper {
@@ -77,8 +117,8 @@ const props = defineProps({
 
 .shop__detail__button {
     display: inline-block; /* リンクをインラインブロックに設定 */
-    padding: 7px 14px; /* ボタンの内側の余白を設定 */
-    font-size: 14px; /* リンクの文字サイズを設定 */
+    padding: 5px 10px; /* ボタンの内側の余白を設定 */
+    font-size: 12px; /* リンクの文字サイズを設定 */
     color: #fff; /* テキストの色を白に設定 */
     background-color: #365ff5; /* ボタンの背景色を設定 */
     border: none;
