@@ -5,6 +5,11 @@ export default defineNuxtConfig({
   modules: ["nuxt-auth-sanctum", "@pinia/nuxt"],
   ssr: false,
 
+  nitro: {
+    preset: "aws-lambda",
+    serveStatic: false,
+  },
+
   // nuxt-auth-sanctum options
   sanctum: {
     baseUrl: "http://localhost:8080", // Laravel API
