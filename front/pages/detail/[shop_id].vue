@@ -6,7 +6,7 @@
                 <h1 class="shop__name">{{ shop.name }}</h1>
             </div>
             <div class="shop__img">
-                <img :src="`/images/shop/${shop.image_url}`" alt="">
+                <img :src="shop.image_url" alt="店舗画像">
             </div>
             <div class="shop__details">
                 <p class="shop__region">#{{ shop.region }}</p>
@@ -20,7 +20,7 @@
 
 <script setup>
 definePageMeta({
-    middleware: ['sanctum:auth'],
+    middleware: ['sanctum:auth','user'],
     layout: 'default',
 });
 import { useRoute, useRouter } from 'vue-router'
