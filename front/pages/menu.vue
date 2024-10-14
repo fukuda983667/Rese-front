@@ -16,15 +16,16 @@
 definePageMeta({
     layout: 'menu',
 });
-
+import { useRouter } from 'vue-router';
+const router = useRouter();
 const { isAuthenticated, logout } = useSanctumAuth()
 
     const performLogout = async () => {
         try {
-            // ユーザーをログインさせる
+            // ユーザーをログアウトさせる
             await logout()
 
-            // ログイン成功後にリダイレクト
+            // ログアウト成功後にリダイレクト
             router.push('/login') // リダイレクト先を必要に応じて変更してください
         } catch (error) {
             console.error('ログアウトに失敗しました:', error)

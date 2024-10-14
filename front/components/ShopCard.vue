@@ -1,7 +1,7 @@
 <template>
     <div class="shop__card">
         <div class="card__img">
-            <img :src="`/images/shop/${shop.image_url}`" alt="">
+            <img :src="shop.image_url" alt="店舗画像">
         </div>
         <div class="card__content">
             <div class="card__header">

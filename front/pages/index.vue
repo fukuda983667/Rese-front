@@ -10,10 +10,9 @@
 
 <script setup>
 definePageMeta({
-    middleware: ['sanctum:auth'],
+    middleware: ['sanctum:auth','user'],
 });
 
-import { ref, onMounted } from 'vue'
 import { useShopStore } from '~/stores/shopStore' // Piniaのストアをインポート
 import { useRoute } from 'vue-router'
 
@@ -51,7 +50,7 @@ onMounted(async () => {
 .shop__card__list {
     list-style-type: none; /* デフォルトのリストスタイルを削除 */
     padding: 0; /* デフォルトのパディングを削除 */
-    margin: 0; /* デフォルトのマージンを削除 */
+    margin: 0 -20px 0 0; /* デフォルトのマージンを削除 */
     display: flex;
     flex-wrap: wrap;
 }

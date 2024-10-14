@@ -4,12 +4,12 @@
         <form class="form" @submit.prevent>
             <div class="input__container">
                 <label for="email" class="icon email__icon"></label>
-                <input id="email" type="text" v-model="email" placeholder="Email" />
+                <input id="email" type="text" v-model="email" placeholder="Email" autocomplete="username"/>
             </div>
             <p class="error__message" v-if="emailError">{{ emailError }}</p>
             <div class="input__container">
                 <label for="password" class="icon password__icon"></label>
-                <input id="password" type="password" v-model="password" placeholder="Password" />
+                <input id="password" type="password" v-model="password" placeholder="Password" autocomplete="current-password"/>
             </div>
             <p class="error__message" v-if="passwordError">{{ passwordError }}</p>
             <button type="button" @click="performLogin" :disabled="!isValid">ログイン</button>
@@ -63,13 +63,14 @@ const performLogin = async () => {
         const userCredentials = {
             email: email.value,
             password: password.value,
+            role: 'user',
         }
 
         // ユーザーをログインさせる
         await login(userCredentials)
 
         // ログイン成功後にリダイレクト
-        router.push('/') // リダイレクト先を必要に応じて変更してください
+        router.push('/') // リダイレクト先
     } catch (error) {
         console.error('ログインに失敗しました:', error)
     }

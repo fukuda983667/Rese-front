@@ -9,6 +9,6 @@ dayjs.locale("ja");
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.provide("formatDate", (value) => {
         const date = dayjs(value);
-        return date.format("YYYY.M.D(ddd.)"); // 日本語の曜日を含むフォーマット
+        return date.format("YYYY-MM-DD"); // 日本語の曜日を含むフォーマット
     });
 });
