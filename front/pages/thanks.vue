@@ -1,7 +1,8 @@
 <template>
     <div class="card">
         <p class="message">会員登録ありがとうございます</p>
-        <NuxtLink class="link" to="/login">ログインする</NuxtLink>
+        <p class="message">認証メールを送信しました</p>
+        <p class="message">認証メールのリンクからログインしてください</p>
     </div>
 </template>
 
@@ -17,14 +18,14 @@ definePageMeta({
     padding: 100px 25px; /* 内側の余白を追加 */
     border-radius: 5px; /* 角を丸くする */
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* 軽い影を追加 */
-    max-width: 400px; /* カードの最大幅を設定 */
+    max-width: 600px; /* カードの最大幅を設定 */
     margin: 20px auto; /* 上下に余白を追加し、中央揃え */
     text-align: center; /* テキストを中央揃え */
 }
 
 .message {
     margin: 0 0 30px 0; /* メッセージとリンクの間にスペースを追加 */
-    font-size: 24px; /* メッセージの文字サイズを設定 */
+    font-size: 22px; /* メッセージの文字サイズを設定 */
 }
 
 .link {

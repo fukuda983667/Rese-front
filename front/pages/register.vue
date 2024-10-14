@@ -4,17 +4,17 @@
         <form class="form" @submit.prevent>
             <div class="input__container">
                 <label for="name" class="icon user__icon"></label>
-                <input id="name" type="text" v-model="name" placeholder="Username" />
+                <input id="name" type="text" v-model="name" placeholder="Username" autocomplete="username"/>
             </div>
             <p class="error__message" v-if="nameError">{{ nameError }}</p>
             <div class="input__container">
                 <label for="email" class="icon email__icon"></label>
-                <input id="email" type="text" v-model="email" placeholder="Email" />
+                <input id="email" type="text" v-model="email" placeholder="Email" autocomplete="email"/>
             </div>
             <p class="error__message" v-if="emailError">{{ emailError }}</p>
             <div class="input__container">
                 <label for="password" class="icon password__icon"></label>
-                <input id="password" type="password" v-model="password" placeholder="Password" />
+                <input id="password" type="password" v-model="password" placeholder="Password" autocomplete="new-password"/>
             </div>
             <p class="error__message" v-if="passwordError">{{ passwordError }}</p>
             <button type="button" @click="register" :disabled="!isValid">登録</button>
@@ -26,7 +26,6 @@
 definePageMeta({
     middleware: ['sanctum:guest'],
 });
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
@@ -65,7 +64,7 @@ const isValid = computed(() => meta.value.valid);
 
 const register = async () => {
     try {
-        const response = await fetch('http://localhost:8080/api/register', {
+        await fetch('http://localhost:8080/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -75,14 +74,11 @@ const register = async () => {
                 email: email.value,
                 password: password.value,
             }),
+            credentials: 'include', //httpリクエストにクッキーが送信される
         })
-        if (response.ok) {
-            console.log('登録成功')
-            router.push('/thanks') // // 登録成功後、thanks.vueへ遷移
-        } else {
-            const data = await response.json()
-            console.error('登録失敗:', data.message)
-        }
+
+        console.log('登録成功')
+        router.push('/thanks') // // 登録成功後、thanks.vueへ遷移
     } catch (error) {
         console.error('登録エラー:', error)
     }
