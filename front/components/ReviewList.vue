@@ -78,14 +78,15 @@ const getReviewByShop = async () => {
 .modal {
     position: fixed;
     width: 700px;
+    max-height: 80vh; /* 最大高さを設定 */
     padding: 20px;
     background-color: white;
-    border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
+    overflow-y: auto;
 }
 
 .overlay {
