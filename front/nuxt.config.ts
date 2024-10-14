@@ -5,10 +5,6 @@ export default defineNuxtConfig({
   modules: ["nuxt-auth-sanctum", "@pinia/nuxt"],
   ssr: false,
 
-  nitro: {
-    preset: "aws-lambda",
-    serveStatic: false,
-  },
 
   // nuxt-auth-sanctum options
   sanctum: {
@@ -26,6 +22,9 @@ export default defineNuxtConfig({
       likes: "/api/likes",
       reservations: "/api/reservations",
       reviews: "/api/reviews",
+
+      admin: "/api/admin",
+      vendor: "/api/vendor",
     },
     csrf: {
       cookie: "XSRF-TOKEN",
