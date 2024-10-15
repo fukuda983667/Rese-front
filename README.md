@@ -42,11 +42,11 @@
 ## URL
 
 - 開発環境(ホームページ) : http://localhost:3000
-- マイページ : http://localhost:3000/mypage
-- メニュー : http://localhost:3000/menu
-- 店舗詳細 : http://localhost:3000/detail/id
-- ユーザ登録ページ : http://localhost:3000/register
-- ログインページ : http://localhost:3000/login
+- 一般ユーザ登録画面 : http://localhost:3000/register
+- 一般ユーザログイン画面 : http://localhost:3000/login
+- 管理者ユーザ登録画面 : http://localhost:3000/admin/register
+- 管理者ユーザログイン画面 : http://localhost:3000/admin/login
+- 店舗運営者ユーザ登録画面 : http://localhost:3000/vendor/login
 
 ## ローカルリポジトリの削除  
 `git clone`したローカルリポジトリを完全に削除します。  
