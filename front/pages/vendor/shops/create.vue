@@ -121,13 +121,20 @@ const selectFile = () => {
 // 画像のファイルをアップロード
 const handleFileUpload = (event) => {
     const file = event.target.files[0]
-    if (file && file.type.startsWith('image/')) {
-        shopImage.value = file
-        imageError.value = ''
-        // プレビュー用URLを生成
-        shopImagePreview.value = URL.createObjectURL(file)
-    } else {
-        imageError.value = '画像ファイルを選択してください'
+    if (file) {
+        if (!file.type.startsWith('image/')) {
+            imageError.value = '画像ファイルを選択してください'
+            shopImage.value = null
+            shopImagePreview.value = null
+        } else if (file.size > 2 * 1024 * 1024) { // 2MB
+            imageError.value = '画像ファイルは2MB以下にしてください'
+            shopImage.value = null
+            shopImagePreview.value = null
+        } else {
+            shopImage.value = file
+            imageError.value = ''
+            shopImagePreview.value = URL.createObjectURL(file)
+        }
     }
 }
 

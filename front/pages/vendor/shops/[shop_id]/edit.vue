@@ -166,7 +166,7 @@ const submitShop = async () => {
         formData.append('description', shopDescription.value);
         formData.append('image', shopImage.value); // 画像ファイルを追加
 
-        await client('api/vendor/shop/update', {
+        await client(`api/vendor/shop/update/${route.params.shop_id}`, {
             method: 'PUT',
             body: formData, // JSONではなくFormDataオブジェクトを送信
         });
