@@ -25,6 +25,9 @@ export default defineNuxtConfig({
 
       admin: "/api/admin",
       vendor: "/api/vendor",
+
+      genres: "api/genres",
+      regions: "api/regions",
     },
     csrf: {
       cookie: "XSRF-TOKEN",

@@ -115,11 +115,6 @@ onMounted(async () => {
     align-items: center;
 }
 
-/* 他のスタイルもadmin/indexに準拠 */
-.modal__open__button, .button__submit, .modal, .overlay, .form__group, .pagination, table, th, td, .error__message {
-    /* 必要に応じてスタイルを追加 */
-}
-
 table {
     width: 100%;
     border-collapse: collapse;

@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   nuxt:
-    container_name: nuxt
+    container_name: nuxt_rese_front
     build: docker/nuxt
     volumes:
       - ./front:/app:cached

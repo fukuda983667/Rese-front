@@ -23,13 +23,14 @@ const route = useRoute()
 
 // クエリパラメータに基づいて店舗をフィルタリング
 const filteredShops = computed(() => {
+    // クエリからselectタグの選択肢で選んだ値を取得
     const region = route.query.region || ''
     const genre = route.query.genre || ''
     const name = route.query.name || ''
 
     return shops.value.filter(shop => {
-        const matchRegion = region ? shop.region.includes(region) : true
-        const matchGenre = genre ? shop.genre.includes(genre) : true
+        const matchRegion = region ? shop.region_name.includes(region) : true
+        const matchGenre = genre ? shop.genre_name.includes(genre) : true
         const matchName = name ? shop.name.includes(name) : true
         return matchRegion && matchGenre && matchName
     })

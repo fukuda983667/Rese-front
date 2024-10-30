@@ -9,8 +9,8 @@
                 <img :src="shop.image_url" alt="店舗画像">
             </div>
             <div class="shop__details">
-                <p class="shop__region">#{{ shop.region }}</p>
-                <p class="shop__genre">#{{ shop.genre }}</p>
+                <p class="shop__region">#{{ shop.region_name }}</p>
+                <p class="shop__genre">#{{ shop.genre_name }}</p>
             </div>
             <p class="shop__description">{{ shop.description }}</p>
         </div>

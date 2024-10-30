@@ -13,14 +13,17 @@
                     <label for="shopRegion">地域</label>
                     <select v-model="shopRegion" id="shopRegion" class="form__input">
                         <option value="" disabled>地域を選択してください</option>
-                        <option v-for="region in regions" :key="region" :value="region">{{ region }}</option>
+                        <option v-for="region in regions" :key="region.id" :value="region.id">{{ region.name }}</option>
                     </select>
                     <span class="error__message">{{ regionError }}</span>
                 </div>
 
                 <div class="form__group">
                     <label for="shopGenre">ジャンル</label>
-                    <input type="text" v-model="shopGenre" id="shopGenre" class="form__input" />
+                    <select v-model="shopGenre" id="shopGenre" class="form__input">
+                        <option value="" disabled>ジャンルを選択してください</option>
+                        <option v-for="genre in genres" :key="genre.id" :value="genre.id">{{ genre.name }}</option>
+                    </select>
                     <span class="error__message">{{ genreError }}</span>
                 </div>
 
@@ -51,8 +54,8 @@
                     <img :src="shopImagePreview" alt="店舗画像プレビュー" class="preview__img" />
                 </div>
                 <div class="preview__shop__details">
-                    <p>#{{ shopRegion || "地域" }}</p>
-                    <p>#{{ shopGenre || "ジャンル" }}</p>
+                    <p>#{{ selectedRegionName || "地域" }}</p>
+                    <p>#{{ selectedGenreName || "ジャンル" }}</p>
                 </div>
                 <p>{{ shopDescription || "説明文" }}</p>
             </div>
@@ -73,24 +76,15 @@ definePageMeta({
 const router = useRouter()
 const { user } = useSanctumAuth()
 const client = useSanctumClient()
-
-// 地域リスト
-const regions = ref([
-    '北海道', '青森県', '岩手県', '宮城県', '秋田県', '山形県', '福島県',
-    '茨城県', '栃木県', '群馬県', '埼玉県', '千葉県', '東京都', '神奈川県',
-    '新潟県', '富山県', '石川県', '福井県', '山梨県', '長野県', '岐阜県',
-    '静岡県', '愛知県', '三重県', '滋賀県', '京都府', '大阪府', '兵庫県',
-    '奈良県', '和歌山県', '鳥取県', '島根県', '岡山県', '広島県', '山口県',
-    '徳島県', '香川県', '愛媛県', '高知県', '福岡県', '佐賀県', '長崎県',
-    '熊本県', '大分県', '宮崎県', '鹿児島県', '沖縄県'
-])
+const regions = ref([])
+const genres = ref([])
 
 // バリデーションスキーマ
 const validationSchema = yup.object({
     shopName: yup.string().required('ショップ名を入力してください').max(15, 'ショップ名は15文字以内で入力してください'),
-    shopRegion: yup.string().required('地域を入力してください').max(20, '地域は20文字以内で入力してください'),
-    shopGenre: yup.string().required('ジャンルを入力してください').max(20, 'ジャンルは20文字以内で入力してください'),
-    shopDescription: yup.string().max(150, '説明文は150文字以内で入力してください'),
+    shopRegion: yup.number().required('地域を選択してください'),
+    shopGenre: yup.number().required('ジャンルを選択してください'),
+    shopDescription: yup.string().required('説明文を入力してください').max(150, '説明文は150文字以内で入力してください'),
 })
 
 // フォームのバリデーション設定
@@ -108,6 +102,10 @@ const { value: shopDescription, errorMessage: descriptionError } = useField('sho
 const shopImage = ref(null)
 const shopImagePreview = ref(null)
 const imageError = ref('')
+
+// 選択された地域とジャンルの名前
+const selectedRegionName = computed(() => regions.value.find(region => region.id === shopRegion.value)?.name || '')
+const selectedGenreName = computed(() => genres.value.find(genre => genre.id === shopGenre.value)?.name || '')
 
 // フォームのバリデーション状態をチェック
 const isValid = computed(() => meta.value.valid && shopImage.value)
@@ -138,7 +136,6 @@ const handleFileUpload = (event) => {
     }
 }
 
-
 // 新規ショップ登録
 const submitShop = async () => {
     try {
@@ -146,8 +143,8 @@ const submitShop = async () => {
         const formData = new FormData();
         formData.append('user_id', user.value.id);
         formData.append('name', shopName.value);
-        formData.append('region', shopRegion.value);
-        formData.append('genre', shopGenre.value);
+        formData.append('region_id', shopRegion.value)
+        formData.append('genre_id', shopGenre.value)
         formData.append('description', shopDescription.value);
         formData.append('image', shopImage.value); // 画像ファイルを追加
 
@@ -161,6 +158,37 @@ const submitShop = async () => {
         console.error('ショップ登録エラー:', error);
     }
 };
+
+
+// ジャンル取得
+const getGenres = async () => {
+    try {
+        const response = await client('/api/genres')
+
+        genres.value = response.genres
+
+    } catch (error) {
+        console.error('genres取得エラー:', error)
+    }
+}
+
+// 地域取得
+const getRegions = async () => {
+    try {
+        const response = await client('/api/regions')
+
+        regions.value = response.regions
+
+    } catch (error) {
+        console.error('regions取得エラー:', error)
+    }
+}
+
+// 初期データ取得
+onMounted(async () => {
+    await getGenres()
+    await getRegions()
+})
 </script>
 
 

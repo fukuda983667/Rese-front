@@ -13,8 +13,8 @@
                 </div>
             </div>
             <div class="shop__details">
-                <p class="shop__region">#{{ shop.region }}</p>
-                <p class="shop__genre">#{{ shop.genre }}</p>
+                <p class="shop__region">#{{ shop.region_name }}</p>
+                <p class="shop__genre">#{{ shop.genre_name }}</p>
             </div>
             <div class="button__wrapper">
                 <nuxt-link :to="{ name: 'detail-shop_id', params: { shop_id: shop.id } }" class="shop__detail__button">
