@@ -28,6 +28,7 @@
         </table>
         <div class="button__wrapper">
             <ReservationUpdateButton :reservation="reservation" />
+            <ReservationQRCodeButton :reservation="reservation" />
         </div>
     </div>
 </template>
