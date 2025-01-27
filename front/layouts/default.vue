@@ -26,10 +26,17 @@ body {
 </style>
 
 <style scoped>
+.header {
+    position: sticky;
+    top: 0px;
+    background-color: #ededed;
+    z-index: 100;
+}
+
 .header__container {
     display: flex;
-    margin: 40px auto;
-    padding: 0 20px;
+    margin: 0 auto 10px;
+    padding: 40px 20px;
     max-width: 1130px;
     width: 100%;
     justify-content: space-between;

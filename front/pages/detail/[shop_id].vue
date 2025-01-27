@@ -13,8 +13,28 @@
                 <p class="shop__genre">#{{ shop.genre_name }}</p>
             </div>
             <p class="shop__description">{{ shop.description }}</p>
+
+            <ReviewList v-if="shop.rating" :shop="shop" button-text="全ての口コミ情報" :hideIcon="true"/>
+
+            <div v-if="review" class="user__review__wrapper">
+                <div class="user__review__info">
+                    <span>あなたの口コミ</span>
+                    <div class="user__review__button__wrapper">
+                        <NuxtLink :to="{ name: 'reviews-edit-shop_id', params: { shop_id: shop.id } }" class="link__review__edit">
+                            口コミを編集
+                        </NuxtLink>
+                        <button class="button__delete__review" @click="deleteUserReviewForShop()">口コミを削除</button>
+                    </div>
+                </div>
+
+                <ReviewCard :review="review"/>
+            </div>
+            <nuxt-link v-else :to="{ name: 'reviews-shop_id', params: { shop_id: shop.id } }">
+                口コミを投稿する
+            </nuxt-link>
         </div>
-        <ReservationForm v-if="shop" :shop="shop" /> <!-- v-ifでshopに値が格納されてからReservationFormを表示&データ渡し -->
+
+        <ReservationForm class="reservation__form" v-if="shop" :shop="shop" />
     </div>
 </template>
 
@@ -29,6 +49,7 @@ import { ref, onMounted } from 'vue'
 // ルート情報を取得
 const route = useRoute();
 const shop = ref();
+const review = ref();
 const client = useSanctumClient()
 console.log(shop)
 
@@ -42,8 +63,32 @@ const getShop = async () => {
     }
 }
 
+// ユーザが投稿したレビューを取得する
+const getUserReviewForShop = async () => {
+    try {
+        const response = await client(`/api/reviews/shops/${route.params.shop_id}/user`)
+        review.value = response.review
+        console.log('レビュー情報:', review.value)
+    } catch (error) {
+        console.error('レビュー取得エラー:', error)
+    }
+}
+
+// ユーザが投稿したレビューを削除する
+const deleteUserReviewForShop = async () => {
+    try {
+        await client(`/api/reviews/shops/${route.params.shop_id}/user`, {
+            method: 'DELETE',
+        });
+        review.value = null;
+    } catch (error) {
+        console.error('レビュー削除エラー:', error)
+    }
+}
+
 onMounted(async () => {
     await getShop();
+    await getUserReviewForShop();
 })
 </script>
 
@@ -52,7 +97,7 @@ onMounted(async () => {
 .main__content {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    margin: 20px 0 100px;
 }
 
 /* 店舗情報▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
@@ -83,4 +128,59 @@ onMounted(async () => {
     gap: 5px; /* 要素間のスペースを追加 */
 }
 /* 店舗情報▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+
+
+/* 口コミ表示ボタン▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
+::v-deep(.modal__open__button) {
+    display: inline-block;
+    margin: 20px 0;
+    padding: 6px;
+    width: 100%;
+    background: #5480f7;
+    color: white;
+    font-size:18px;
+    border: none;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+}
+/* 口コミ表示ボタン▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+
+/* ユーザ自身の口コミ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
+.user__review__wrapper {
+    padding: 15px 0 30px;
+    border-top: 2px solid #ddd;
+    border-bottom: 2px solid #ddd;
+}
+
+.user__review__info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.user__review__button__wrapper {
+    display: flex;
+    gap: 15px;
+}
+
+.link__review__edit {
+    color: #000;
+}
+
+.button__delete__review {
+    padding: 0;
+    font-size: 16px;
+    border: none;
+    text-decoration: underline;
+    text-decoration-color: #000;
+    cursor: pointer;
+}
+
+/* ユーザ自身の口コミ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+
+.reservation__form {
+    position: sticky;
+    top: 170px; /* 上部からの距離 */
+    height: 600px;
+}
 </style>

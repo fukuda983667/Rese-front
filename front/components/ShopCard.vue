@@ -9,7 +9,7 @@
                 <div class="shop__review-summary" v-if="shop.rating">
                     <span>{{ shop.rating }}</span>
                     <span class="star__icon"></span>
-                    <ReviewList :shopId="shop.id"/>
+                    <ReviewList :shop="shop"/>
                 </div>
             </div>
             <div class="shop__details">

@@ -13,6 +13,7 @@
         <tr>
             <th>名前</th>
             <th>メールアドレス</th>
+            <th>運営店舗</th>
             <th>登録日</th>
         </tr>
         </thead>
@@ -20,6 +21,14 @@
         <tr v-for="(vendor, index) in paginatedVendors" :key="index">
             <td>{{ vendor.name }}</td>
             <td>{{ vendor.email }}</td>
+            <td>
+                <span v-for="(shop, index) in vendor.shops" :key="shop.id">
+                    <nuxt-link :to="{ name: 'admin-detail-shop_id', params: { shop_id: shop.id } }">
+                        {{ shop.name }}
+                    </nuxt-link>
+                    <span v-if="index < vendor.shops.length - 1">, </span>
+                </span>
+            </td>
             <td>{{ $formatDate(vendor.created_at) }}</td>
         </tr>
         </tbody>
