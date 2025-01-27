@@ -34,7 +34,6 @@ watch(() => props.isLiked, (newVal) => {
 })
 
 
-// 店舗一覧を取得する関数
 const client = useSanctumClient()
 const { user } = useSanctumAuth()
 const toggleLike = async () => {
