@@ -2,7 +2,11 @@
         <header class="header">
             <div class="header__container">
                 <HamburgerMenu />
-                <ShopSearch v-if="isIndexPage" />
+                <div class="shop__sort__search__container">
+                    <ShopSortSelect v-if="isIndexPage" />
+                    <ShopSearch v-if="isIndexPage" />
+                </div>
+
             </div>
         </header>
         <main class="main">
@@ -42,6 +46,11 @@ body {
     justify-content: space-between;
     text-align: center;
     box-sizing: border-box;
+}
+
+.shop__sort__search__container {
+    display: flex;
+    gap: 35px;
 }
 
 .main {
