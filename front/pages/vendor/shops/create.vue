@@ -184,12 +184,14 @@ const handleCsvUpload = async (event) => {
 
 
 const parseCsv = (csvContent) => {
-    // 改行で分割して各行をrowsに配列として格納
+    // 改行で分割して各行をrowsに配列として格納。まだ「,」含みの文字列
     const rows = csvContent.split('\n').map(row => row.trim()).filter(row => row);
+    // 1行目をheaderRowに、その他をdataRowsに格納
     const [headerRow, ...dataRows] = rows;
+    // 「,」毎に分割して配列にする
     const headers = headerRow.split(',');
 
-    // 必要なカラムがあるかチェック
+    // 1行目のheaderRowにそれぞれ指定の名前があるか確認
     const requiredFields = ['名前', '地域', 'ジャンル', '店舗説明文'];
     if (!requiredFields.every(field => headers.includes(field))) {
         csvError.value = 'CSV のフォーマットが正しくありません';
@@ -202,9 +204,9 @@ const parseCsv = (csvContent) => {
     const genreIndex = headers.indexOf('ジャンル');
     const descriptionIndex = headers.indexOf('店舗説明文');
 
-    // 1行目のデータを取得（複数行対応する場合はループ処理を考慮）
+    // csv2行目を配列としてfirstRowに格納
     const firstRow = dataRows[0]?.split(',');
-
+    // csv2行目がもれなく記述されているか確認
     if (!firstRow || firstRow.length < requiredFields.length) {
         csvError.value = 'CSV のデータが不足しています';
         return;
