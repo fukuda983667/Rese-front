@@ -53,18 +53,24 @@ const filterShops = () => {
 <style scoped>
 .search__container {
     display: flex;
-    width: 48%;
+    width: 450px;
     padding: 8px;
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    box-sizing: border-box;
 }
 
 .select {
-    width: 18%;
+    width: 85px;
     font-weight: bold;
     border: none;
     border-right: 2px solid #ededed;
+    cursor: pointer;
+}
+
+.select:focus {
+    outline: none;
 }
 
 .search__name__label {
