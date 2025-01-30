@@ -20,26 +20,61 @@ const shopStore = useShopStore()
 const shops = computed(() => shopStore.shops)
 const { user, isAuthenticated, refreshIdentity } = useSanctumAuth()
 const route = useRoute()
+const router = useRouter()
 
 // クエリパラメータに基づいて店舗をフィルタリング
 const filteredShops = computed(() => {
-    // クエリからselectタグの選択肢で選んだ値を取得
     const region = route.query.region || ''
     const genre = route.query.genre || ''
     const name = route.query.name || ''
 
-    return shops.value.filter(shop => {
+    let filtered = shops.value.filter(shop => {
         const matchRegion = region ? shop.region_name.includes(region) : true
         const matchGenre = genre ? shop.genre_name.includes(genre) : true
         const matchName = name ? shop.name.includes(name) : true
         return matchRegion && matchGenre && matchName
     })
+
+    // ランダム並べ替え
+    if (shopStore.sortBy === '') {
+        // ランダムに並べ替え
+        filtered = filtered.sort(() => Math.random() - 0.5)
+    }
+    // ソート処理（評価順）
+    else if (shopStore.sortBy === 'high-rating') {
+        filtered.sort((a, b) => {
+            const ratingA = a.rating || 0;  // 評価がない場合は0とする
+            const ratingB = b.rating || 0;  // 評価がない場合は0とする
+            return ratingB - ratingA;  // 評価が高い順
+        });
+    } else if (shopStore.sortBy === 'low-rating') {
+        filtered.sort((a, b) => {
+            const ratingA = a.rating || 0;  // 評価がない場合は0とする
+            const ratingB = b.rating || 0;  // 評価がない場合は0とする
+            return ratingA - ratingB;  // 評価が低い順
+        });
+    }
+
+    // 評価がない店舗は最後に配置する（評価順の場合のみ）
+    if (shopStore.sortBy === 'high-rating' || shopStore.sortBy === 'low-rating') {
+        filtered.sort((a, b) => {
+            const ratingA = a.rating || 0;
+            const ratingB = b.rating || 0;
+            if (ratingA === 0 && ratingB !== 0) return 1;  // 評価がない店舗を下に
+            if (ratingB === 0 && ratingA !== 0) return -1; // 評価がない店舗を下に
+            return 0;
+        });
+    }
+
+    return filtered
 })
 
 // コンポーネントがマウントされたときに店舗一覧を取得
 onMounted(async () => {
     await refreshIdentity()
     await shopStore.fetchShops()
+    // クエリパラメータを初期化する
+    await router.push({ query: { region: '', genre: '', name: '' } })
 })
 </script>
 

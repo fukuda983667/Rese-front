@@ -8,6 +8,7 @@ export const useShopStore = defineStore("shop", {
         selectedRegion: "",
         selectedGenre: "",
         searchName: "",
+        sortBy: "",
     }),
     actions: {
         async fetchShops() {
@@ -15,11 +16,14 @@ export const useShopStore = defineStore("shop", {
             try {
                 const response = await client("/api/shops");
                 this.shops = response.shops;
-                this.genres = response.genres; //検索機能用ジャンル配列
-                this.regions = response.regions; //検索機能用リージョン配列
+                this.genres = response.genres;
+                this.regions = response.regions;
             } catch (error) {
                 console.error("店舗一覧の取得エラー:", error);
             }
+        },
+        setSortBy(sortBy) {
+            this.sortBy = sortBy;
         },
     },
 });
