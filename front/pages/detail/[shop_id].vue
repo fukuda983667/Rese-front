@@ -29,7 +29,7 @@
 
                 <ReviewCard :review="review"/>
             </div>
-            <nuxt-link v-else :to="{ name: 'reviews-shop_id', params: { shop_id: shop.id } }">
+            <nuxt-link v-if="canReview" :to="{ name: 'reviews-shop_id', params: { shop_id: shop.id } }">
                 口コミを投稿する
             </nuxt-link>
         </div>
@@ -49,6 +49,7 @@ import { ref, onMounted } from 'vue'
 // ルート情報を取得
 const route = useRoute();
 const shop = ref();
+const canReview = ref();
 const review = ref();
 const client = useSanctumClient()
 console.log(shop)
@@ -63,12 +64,21 @@ const getShop = async () => {
     }
 }
 
-// ユーザが投稿したレビューを取得する
+// ユーザがレビューできるか否か来店履歴を取得
+const getCanUserReview = async () => {
+    try {
+        const response = await client(`/api/reviews/shops/${route.params.shop_id}/can-review`)
+        canReview.value = response.can_review
+    } catch (error) {
+        console.error('レビュー可否取得エラー:', error)
+    }
+}
+
+// ユーザが投稿したレビューを取得
 const getUserReviewForShop = async () => {
     try {
         const response = await client(`/api/reviews/shops/${route.params.shop_id}/user`)
         review.value = response.review
-        console.log('レビュー情報:', review.value)
     } catch (error) {
         console.error('レビュー取得エラー:', error)
     }
@@ -88,6 +98,7 @@ const deleteUserReviewForShop = async () => {
 
 onMounted(async () => {
     await getShop();
+    await getCanUserReview();
     await getUserReviewForShop();
 })
 </script>
