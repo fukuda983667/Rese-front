@@ -148,8 +148,8 @@ const handleFileUpload = (event) => {
             imageError.value = '画像ファイルを選択してください'
             shopImage.value = null
             shopImagePreview.value = null
-        } else if (file.size > 2 * 1024 * 1024) { // 2MB
-            imageError.value = '画像ファイルは2MB以下にしてください'
+        } else if (file.size > 1024 * 1024) { // 1MB
+            imageError.value = '画像ファイルは1MB以下にしてください'
             shopImage.value = null
             shopImagePreview.value = null
         } else {
