@@ -2,7 +2,7 @@
     <div class="container">
         <h1>出店者一覧</h1>
         <div class="button__wrapper">
-            <button class="modal__open__button" @click="openModal">新規作成</button>
+            <button class="modal__open__button" @click="openModal">出店者作成</button>
         </div>
     </div>
 
@@ -23,7 +23,7 @@
             <td>{{ vendor.email }}</td>
             <td>
                 <span v-for="(shop, index) in vendor.shops" :key="shop.id">
-                    <nuxt-link :to="{ name: 'admin-detail-shop_id', params: { shop_id: shop.id } }">
+                    <nuxt-link :to="{ name: 'admin-shops-detail-shop_id', params: { shop_id: shop.id } }">
                         {{ shop.name }}
                     </nuxt-link>
                     <span v-if="index < vendor.shops.length - 1">, </span>
@@ -46,7 +46,7 @@
     <div class="overlay" @click="closeModal" v-show="isModalOpen"></div>
     <div class="modal" v-show="isModalOpen">
         <form @submit.prevent="submitVendor">
-            <h2 class="form__title">新規出店者作成</h2>
+            <h2 class="form__title">出店者新規作成</h2>
             <div class="form__group">
                 <label for="name">名前</label>
                 <input type="text" id="name" v-model="vendorName" placeholder="名前" autocomplete="username"/>
