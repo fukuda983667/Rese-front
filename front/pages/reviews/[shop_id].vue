@@ -75,6 +75,7 @@ import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
 
 const shop = ref();
+const canReview = ref();
 const { user } = useSanctumAuth()
 const client = useSanctumClient()
 const route = useRoute();
@@ -139,8 +140,6 @@ const handleFileUpload = (event) => {
 };
 
 
-
-
 // 店舗情報を取得する関数
 const getShop = async () => {
     try {
@@ -151,7 +150,21 @@ const getShop = async () => {
     }
 }
 
+// ユーザがレビューできるか否か来店履歴を取得
+const getCanUserReview = async () => {
+    try {
+        const response = await client(`/api/reviews/shops/${route.params.shop_id}/can-review`)
+        canReview.value = response.can_review
+        // 来店履歴が無ければ画面遷移
+        if (!canReview.value) {
+            router.push(`/detail/${route.params.shop_id}`)
+        }
+    } catch (error) {
+        console.error('レビュー可否取得エラー:', error)
+    }
+}
 
+// レビュー投稿
 const submitReview = async () => {
     if (!isValid.value) return;  // バリデーションが無効な場合は何もしない
 
@@ -185,6 +198,7 @@ const submitReview = async () => {
 
 onMounted(async () => {
     await getShop();
+    await getCanUserReview();
 })
 </script>
 
