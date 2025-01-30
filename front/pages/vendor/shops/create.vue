@@ -34,8 +34,27 @@
                 </div>
 
                 <div class="form__group">
+                    <label for="shopCsv">CSV アップロード</label>
+                    <input
+                        type="file"
+                        @change="handleCsvUpload"
+                        id="shopCsv"
+                        class="form__input file__input"
+                        accept=".csv"
+                    />
+                    <button type="button" @click="selectCsvFile" class="custom__button">CSVを選択</button>
+                    <span class="error__message" v-if="csvError">{{ csvError }}</span>
+                </div>
+
+                <div class="form__group">
                     <label for="shopImage">店舗画像</label>
-                    <input type="file" @change="handleFileUpload" id="shopImage" class="form__input file__input" />
+                    <input
+                        type="file"
+                        @change="handleFileUpload"
+                        id="shopImage"
+                        class="form__input file__input"
+                        accept="image/png, image/jpeg"
+                    />
                     <button type="button" @click="selectFile" class="custom__button">画像を選択</button>
                     <span class="error__message" v-if="imageError">{{ imageError }}</span>
                 </div>
@@ -124,8 +143,8 @@ const handleFileUpload = (event) => {
             imageError.value = '画像ファイルを選択してください'
             shopImage.value = null
             shopImagePreview.value = null
-        } else if (file.size > 2 * 1024 * 1024) { // 2MB
-            imageError.value = '画像ファイルは2MB以下にしてください'
+        } else if (file.size > 1024 * 1024) { // 1MB
+            imageError.value = '画像ファイルは1MB以下にしてください'
             shopImage.value = null
             shopImagePreview.value = null
         } else {
@@ -135,6 +154,88 @@ const handleFileUpload = (event) => {
         }
     }
 }
+
+
+// csvインポート▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼
+const csvError = ref('')
+
+// CSV アップロードボタンをクリック
+const selectCsvFile = () => {
+    document.getElementById("shopCsv").click();
+};
+
+// CSV ファイルを解析
+const handleCsvUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!file.type.includes('csv')) {
+        csvError.value = 'CSV ファイルを選択してください';
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const csvContent = e.target.result;
+        parseCsv(csvContent);
+    };
+    reader.readAsText(file);
+};
+
+
+const parseCsv = (csvContent) => {
+    // 改行で分割して各行をrowsに配列として格納
+    const rows = csvContent.split('\n').map(row => row.trim()).filter(row => row);
+    const [headerRow, ...dataRows] = rows;
+    const headers = headerRow.split(',');
+
+    // 必要なカラムがあるかチェック
+    const requiredFields = ['名前', '地域', 'ジャンル', '店舗説明文'];
+    if (!requiredFields.every(field => headers.includes(field))) {
+        csvError.value = 'CSV のフォーマットが正しくありません';
+        return;
+    }
+
+    // ヘッダーのインデックスを取得
+    const nameIndex = headers.indexOf('名前');
+    const regionIndex = headers.indexOf('地域');
+    const genreIndex = headers.indexOf('ジャンル');
+    const descriptionIndex = headers.indexOf('店舗説明文');
+
+    // 1行目のデータを取得（複数行対応する場合はループ処理を考慮）
+    const firstRow = dataRows[0]?.split(',');
+
+    if (!firstRow || firstRow.length < requiredFields.length) {
+        csvError.value = 'CSV のデータが不足しています';
+        return;
+    }
+
+    // 地域名からIDを取得
+    const regionName = firstRow[regionIndex]?.trim();
+    const matchedRegion = regions.value.find(region => region.name === regionName);
+    if (!matchedRegion) {
+        csvError.value = `地域「${regionName}」が見つかりません`;
+        return;
+    }
+
+    // ジャンル名からIDを取得
+    const genreName = firstRow[genreIndex]?.trim();
+    const matchedGenre = genres.value.find(genre => genre.name === genreName);
+    if (!matchedGenre) {
+        csvError.value = `ジャンル「${genreName}」が見つかりません`;
+        return;
+    }
+
+    // 値を設定
+    shopName.value = firstRow[nameIndex]?.trim() || '';
+    shopRegion.value = matchedRegion.id;
+    shopGenre.value = matchedGenre.id;
+    shopDescription.value = firstRow[descriptionIndex]?.trim() || '';
+
+    csvError.value = '';
+};
+// csvインポート▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
 
 // 新規ショップ登録
 const submitShop = async () => {
