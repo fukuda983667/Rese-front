@@ -298,7 +298,7 @@ onMounted(async () => {
 
 .button__wrapper {
     display: flex;
-    margin-top: 30px;
+    margin: 30px 0;
     justify-content: center;
 }
 
@@ -326,5 +326,31 @@ onMounted(async () => {
     margin: 0 0 20px 0;
     color: #ff0000;
     font-weight: bold;
+}
+
+
+/* タブレット＆スマホ向け（～768px） */
+@media screen and (max-width: 768px) {
+    .review__wrapper {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .shop__info {
+        border: none;
+    }
+
+    .review__form {
+        padding: 0 30px;
+        width: 100%;
+    }
+
+    .button__review__submit {
+        width: 200px;
+    }
+
+    :deep(.modal) {
+        width: 80%;
+    }
 }
 </style>

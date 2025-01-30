@@ -29,7 +29,7 @@
 
                 <ReviewCard :review="review"/>
             </div>
-            <nuxt-link v-if="canReview" :to="{ name: 'reviews-shop_id', params: { shop_id: shop.id } }">
+            <nuxt-link v-if="canReview && !review" :to="{ name: 'reviews-shop_id', params: { shop_id: shop.id } }">
                 口コミを投稿する
             </nuxt-link>
         </div>
@@ -193,5 +193,22 @@ onMounted(async () => {
     position: sticky;
     top: 170px; /* 上部からの距離 */
     height: 600px;
+}
+
+
+/* タブレット＆スマホ向け（～768px） */
+@media screen and (max-width: 768px) {
+    .main__content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .shop__detail, .reservation__form {
+        width: 100%;
+    }
+
+    :deep(.modal) {
+        width: 80%;
+    }
 }
 </style>

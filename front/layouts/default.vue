@@ -3,8 +3,8 @@
             <div class="header__container">
                 <HamburgerMenu />
                 <div class="shop__sort__search__container">
-                    <ShopSortSelect v-if="isIndexPage" />
-                    <ShopSearch v-if="isIndexPage" />
+                    <ShopSortSelect v-if="isIndexPage" class="shop__sort__select"/>
+                    <ShopSearch v-if="isIndexPage" class="shop__search" />
                 </div>
 
             </div>
@@ -67,5 +67,26 @@ body {
     max-width: 1130px;
     width: 100%;
     box-sizing: border-box;
+}
+
+
+/* タブレット＆スマホ向け（～768px） */
+@media screen and (max-width: 768px) {
+    .header__container {
+        flex-direction: column;
+    }
+
+    .shop__sort__search__container {
+        margin-top: 20px;
+        flex-direction: column;
+    }
+
+    .shop__sort__select {
+        width: 100px;
+    }
+
+    .shop__search {
+        width: 100%;
+    }
 }
 </style>

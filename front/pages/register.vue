@@ -176,4 +176,13 @@ button {
 button:hover {
     background-color: #2e51d0; /* ホバー時の背景色を設定 */
 }
+
+
+/* タブレット＆スマホ向け（～768px） */
+@media screen and (max-width: 768px) {
+    .form__container {
+        width: 50%;
+        min-width: 330px;
+    }
+}
 </style>

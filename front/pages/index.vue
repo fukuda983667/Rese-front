@@ -100,4 +100,18 @@ onMounted(async () => {
 .shop__card {
     width: 100%;
 }
+
+
+
+/* タブレット＆スマホ向け（～768px） */
+@media screen and (max-width: 768px) {
+    .shop__card__item {
+        margin: 10px 7px; /* Space between items */
+        width: calc(50% - 20px); /* 水平マージンを考慮して幅を調整 */
+    }
+
+    :deep(.modal) {
+        width: 80%;
+    }
+}
 </style>

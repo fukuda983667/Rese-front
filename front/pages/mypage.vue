@@ -142,4 +142,35 @@ onMounted(() => {
 }
 /* shop__card__list▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
 
+
+/* タブレット＆スマホ向け（～768px） */
+@media screen and (max-width: 768px) {
+    .mypage__content {
+        flex-direction: column;
+    }
+
+    .reservation__shop__content,
+    .visit-history__shop__content {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .reservation__card__wrapper,
+    .visit-history__card__wrapper {
+        width: 60%;
+        min-width: 300px;
+    }
+
+    .like__shop__content {
+        width: 100%;
+    }
+
+    :deep(.modal) {
+        width: 80%;
+    }
+
+    :deep(.reservation__form) {
+        width: 100%;
+    }
+}
 </style>
