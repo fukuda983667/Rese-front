@@ -25,10 +25,6 @@
                 <td>{{ visitHistory.reservation_number }}人</td>
             </tr>
         </table>
-        <div class="button__wrapper">
-            <ReviewFormModal :shop="visitHistory.shop" />
-        </div>
-
     </div>
 </template>
 
@@ -95,10 +91,5 @@ th, td {
     font-size: 14px;
     font-weight: 400;
     text-align: left;
-}
-
-.button__wrapper {
-    display: flex;
-    justify-content: center;
 }
 </style>
