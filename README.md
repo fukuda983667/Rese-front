@@ -59,7 +59,7 @@
 
 2. csvインポート機能 : http://localhost:3000/vendor/shops/create
 
-    sample.csvを参考に、2行目に[,]区切りでヘッダーに対応するよう記述してください。
+    [sample.csv](https://github.com/fukuda983667/Rese-front/blob/main/sample.csv)を参考に、2行目に[,]区切りでヘッダーに対応するよう記述してください。
 
 ## ローカルリポジトリの削除  
 `git clone`したローカルリポジトリを完全に削除します。  
