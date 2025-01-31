@@ -82,10 +82,10 @@ const genres = ref([])
 
 // バリデーションスキーマ
 const validationSchema = yup.object({
-    shopName: yup.string().required('ショップ名を入力してください').max(15, 'ショップ名は15文字以内で入力してください'),
+    shopName: yup.string().required('ショップ名を入力してください').max(50, 'ショップ名は50文字以内で入力してください'),
     shopRegionId: yup.string().required('地域を入力してください'),
     shopGenreId: yup.string().required('ジャンルを入力してください'),
-    shopDescription: yup.string().required('説明文を入力してください').max(150, '説明文は150文字以内で入力してください'),
+    shopDescription: yup.string().required('説明文を入力してください').max(400, '説明文は400文字以内で入力してください'),
 })
 
 // フォームのバリデーション設定
