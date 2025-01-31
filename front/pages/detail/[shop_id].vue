@@ -14,7 +14,16 @@
             </div>
             <p class="shop__description">{{ shop.description }}</p>
 
-            <ReviewList v-if="shop.rating" :shop="shop" button-text="全ての口コミ情報" :hideIcon="true"/>
+            <div class="review__list__wrapper">
+                <button class="button__show__review__list" @click="toggleReviewList">
+                    {{ isReviewListVisible ? '口コミを非表示にする' : '全ての口コミ情報' }}
+                </button>
+                <ul v-if="isReviewListVisible" class="review__list">
+                    <li v-for="review in reviews" class="review__list__item">
+                        <ReviewCard :review="review"/>
+                    </li>
+                </ul>
+            </div>
 
             <div v-if="review" class="user__review__wrapper">
                 <div class="user__review__info">
@@ -50,9 +59,19 @@ import { ref, onMounted } from 'vue'
 const route = useRoute();
 const shop = ref();
 const canReview = ref();
+const reviews = ref()
 const review = ref();
+const isReviewListVisible = ref(false);
 const client = useSanctumClient()
 console.log(shop)
+
+// 口コミリストの表示・非表示を切り替える
+const toggleReviewList = async () => {
+    if (!isReviewListVisible.value) {
+        await getReviewByShop();
+    }
+    isReviewListVisible.value = !isReviewListVisible.value;
+}
 
 // 店舗情報を取得する関数
 const getShop = async () => {
@@ -61,6 +80,16 @@ const getShop = async () => {
         shop.value = response.shop
     } catch (error) {
         console.error('店舗情報取得エラー:', error)
+    }
+}
+
+// 店舗に寄せられるレビューを取得する関数
+const getReviewByShop = async () => {
+    try {
+        const response = await client(`/api/reviews/shops/${route.params.shop_id}`)
+        reviews.value = response.reviews
+    } catch (error) {
+        console.error('店舗レビュー取得エラー:', error)
     }
 }
 
@@ -141,8 +170,8 @@ onMounted(async () => {
 /* 店舗情報▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
 
 
-/* 口コミ表示ボタン▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
-::v-deep(.modal__open__button) {
+/* 口コミ表示▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
+.button__show__review__list {
     display: inline-block;
     margin: 20px 0;
     padding: 6px;
@@ -155,7 +184,11 @@ onMounted(async () => {
     text-decoration: none;
     cursor: pointer;
 }
-/* 口コミ表示ボタン▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+
+.review__list {
+    list-style-type: none;
+}
+/* 口コミ表示▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
 
 /* ユーザ自身の口コミ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
 .user__review__wrapper {
