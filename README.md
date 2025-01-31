@@ -51,11 +51,17 @@
 
 ## 追加機能について
 
-5. 口コミ機能
-口コミを投稿できる条件はその店舗の予約時間が過ぎていること。
-予約後にphpMyAdminでreservationsテーブルのreservation_timeカラムの値を過去の日付にして確認してください。
+1. 口コミ機能 : http://localhost:3000/reviews/{shop_id}
 
+    口コミを投稿できる条件はその店舗の予約時間が過ぎていること。
 
+    予約後にphpMyAdminでreservationsテーブルのreservation_timeカラムの値を過去の日付にして確認してください。
+
+2. csvインポート機能 : http://localhost:3000/vendor/shops/create
+
+    口コミを投稿できる条件はその店舗の予約時間が過ぎていること。
+
+    予約後にphpMyAdminでreservationsテーブルのreservation_timeカラムの値を過去の日付にして確認してください。
 
 
 ## ローカルリポジトリの削除  
