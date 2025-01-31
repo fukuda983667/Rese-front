@@ -57,7 +57,7 @@
 
     予約後にphpMyAdminでreservationsテーブルのreservation_timeカラムの値を過去の日付にして確認してください。
 
-   管理者による口コミ削除ができるページは店舗一覧画面から店舗名のリンクを踏んでください。
+   管理者による口コミ削除ができるページは出店者一覧画面から店舗名のリンクを踏んでください。
 
 3. csvインポート機能 : http://localhost:3000/vendor/shops/create
 
