@@ -59,10 +59,7 @@
 
 2. csvインポート機能 : http://localhost:3000/vendor/shops/create
 
-    口コミを投稿できる条件はその店舗の予約時間が過ぎていること。
-
-    予約後にphpMyAdminでreservationsテーブルのreservation_timeカラムの値を過去の日付にして確認してください。
-
+    sample.csvを参考に、2行目に[,]区切りでヘッダーに対応するよう記述してください。
 
 ## ローカルリポジトリの削除  
 `git clone`したローカルリポジトリを完全に削除します。  
