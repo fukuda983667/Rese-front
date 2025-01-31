@@ -41,12 +41,18 @@
 
 ## URL
 
+- phpMyAdmin : http://localhost:8081
 - 開発環境(ホームページ) : http://localhost:3000
 - 一般ユーザ登録画面 : http://localhost:3000/register
 - 一般ユーザログイン画面 : http://localhost:3000/login
 - 管理者ユーザ登録画面 : http://localhost:3000/admin/register
 - 管理者ユーザログイン画面 : http://localhost:3000/admin/login
 - 店舗運営者ユーザ登録画面 : http://localhost:3000/vendor/login
+
+## 追加機能
+
+- 口コミを投稿できる条件はその店舗の予約時間が過ぎていること。
+
 
 ## ローカルリポジトリの削除  
 `git clone`したローカルリポジトリを完全に削除します。  
