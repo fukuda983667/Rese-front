@@ -57,7 +57,9 @@
 
     予約後にphpMyAdminでreservationsテーブルのreservation_timeカラムの値を過去の日付にして確認してください。
 
-2. csvインポート機能 : http://localhost:3000/vendor/shops/create
+   管理者による口コミ削除ができるページは店舗一覧画面から店舗名のリンクを踏んでください。
+
+3. csvインポート機能 : http://localhost:3000/vendor/shops/create
 
     [sample.csv](https://github.com/fukuda983667/Rese-front/blob/main/sample.csv)を参考に、2行目に[,]区切りでヘッダーに対応するよう記述してください。
 
