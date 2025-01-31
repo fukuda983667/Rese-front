@@ -41,6 +41,7 @@
                     placeholder="気に入ったこと/気に入らなかったことは何ですか？"
                     rows="5"
                 ></textarea>
+                <span class="review__text__length">{{ reviewText?.length || 0 }}/400 (最高文字数)</span>
             </div>
 
             <!-- 画像添付 -->
@@ -252,6 +253,8 @@ onMounted(async () => {
 
 .form__group {
     margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
 }
 
 .form__group input,
@@ -266,6 +269,10 @@ onMounted(async () => {
 
 .form__group textarea {
     margin-bottom: 10px;
+}
+
+.review__text__length {
+    align-self: flex-end;
 }
 
 /* 画像添付▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
