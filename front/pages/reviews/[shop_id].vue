@@ -95,8 +95,8 @@ const validationSchema = yup.object({
         .min(1, '評価は1以上である必要があります'),
     reviewText: yup
         .string()
-        .required('レビュー内容を入力してください')
-        .max(400, 'レビュー内容は400文字以下で入力してください'),
+        .required('口コミを入力してください')
+        .max(400, '口コミは400文字以下で入力してください'),
 });
 
 // useFormを使ってバリデーションスキーマを設定
